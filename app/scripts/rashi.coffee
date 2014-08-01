@@ -1,4 +1,5 @@
-main = do ->
+main = do -> #$ ->
+
 	$videoBlocks = $ '.art_video > div'
 
 	$videoBlocks.each (i) ->
@@ -10,27 +11,24 @@ main = do ->
 
 		configuration = JSON.parse(configurationRawJSON) ?  {}
 
-		console.log 'YNET JSON found', configurationRawJSON, configuration
-
 		if configuration.clip.url?
 			finalVideoURL = configuration.clip.url.replace('/z/', '/').replace('/manifest.f4m', '')
 			posterURL = $vidBlock.find('img[src*=PicServer]').attr('src')
 
-			$vidBlock.append($('<video>', 
+			$el = $('<video>', 
 				# src: finalVideoURL, 
 				# preload: 'auto',
 				controls: '',
-				poster: posterURL,
-				height: $vidBlock.height(), 
-				width: $vidBlock.width()
+				poster: posterURL
 			).append(
-				$("<source>", src: finalVideoURL, type: 'video/flv;codecs=h263,mp3a')
-			))
+				$("<source>", src: finalVideoURL, type: 'video/flash')
+			)
 
-			console.log "Found clip URL: #{finalVideoURL}"
+			$vidBlock.find('div[id^=fpContainer]').remove()
+			$vidBlock.prepend $('<div class=ynetaltplayer>').append $el
 
+			console.info "YNET/VIDEO: Found clip URL: #{finalVideoURL}"
+		return
 
-
-
-
-	console.log('ynet HTML5 initialized', $, jQuery)
+	$(".ynetaltplayer").flowplayer();
+	return
