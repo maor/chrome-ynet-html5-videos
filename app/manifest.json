@@ -1,6 +1,6 @@
 {
     "name": "__MSG_appName__",
-    "version": "0.0.1",
+    "version": "0.0.18",
     "manifest_version": 2,
     "description": "__MSG_appDescription__",
     "icons": {
@@ -16,8 +16,15 @@
     },
     "content_scripts": [
         {
-            "matches": ["http://*.ynet.co.il/*", "http://ynet.co.il/*", "https://*.ynet.co.il/*"],
-            "js": ["content.js"]
+            "matches": [
+                "http://*.ynet.co.il/*",
+                "http://ynet.co.il/*",
+                "https://*.ynet.co.il/*"
+            ],
+            "js": [
+                "bower_components/jquery/dist/jquery.min.js",
+                "scripts/rashi.js"
+            ]
         }
     ]
 }
