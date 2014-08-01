@@ -235,27 +235,27 @@ module.exports = function (grunt) {
         // By default, your `index.html`'s <!-- Usemin block --> will take care of
         // minification. These next options are pre-configured if you do not wish
         // to use the Usemin blocks.
-        // cssmin: {
-        //     dist: {
-        //         files: {
-        //             '<%= config.dist %>/styles/main.css': [
-        //                 '<%= config.app %>/styles/{,*/}*.css'
-        //             ]
-        //         }
-        //     }
-        // },
-        // uglify: {
-        //     dist: {
-        //         files: {
-        //             '<%= config.dist %>/scripts/scripts.js': [
-        //                 '<%= config.dist %>/scripts/scripts.js'
-        //             ]
-        //         }
-        //     }
-        // },
-        // concat: {
-        //     dist: {}
-        // },
+        cssmin: {
+            dist: {
+                files: {
+                    '<%= config.dist %>/styles/main.css': [
+                        '<%= config.app %>/styles/{,*/}*.css'
+                    ]
+                }
+            }
+        },
+        uglify: {
+            dist: {
+                files: {
+                    '<%= config.dist %>/scripts/scripts.js': [
+                        '<%= config.dist %>/scripts/scripts.js'
+                    ]
+                }
+            }
+        },
+        concat: {
+            dist: {}
+        },
 
         // Copies remaining files to places other tasks can use
         copy: {
@@ -272,7 +272,21 @@ module.exports = function (grunt) {
                         'styles/{,*/}*.css',
                         'styles/fonts/{,*/}*.*',
                         '_locales/{,*/}*.json',
+                        'scripts/libs/**'
                     ]
+                }]
+            }
+        },
+
+        replace: {
+            dist: {
+                src: [
+                    'scripts/libs/**/*.css'
+                ], // source files array (supports minimatch)
+                dest: '<%= config.dist %>/scripts', // destination directory or file
+                replacements: [{
+                    from: /img\//ig, // regex replacement ('Fooo' to 'Mooo')
+                    to: 'chrome-extension://__MSG_@@extension_id__/$1'
                 }]
             }
         },
@@ -350,6 +364,7 @@ module.exports = function (grunt) {
         'cssmin',
         'concat',
         'uglify',
+        'replace',
         'copy',
         'usemin',
         'compress'
