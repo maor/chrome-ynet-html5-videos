@@ -2,7 +2,10 @@
   var main;
 
   main = (function() {
-    var $videoBlocks;
+    var $videoBlocks, stylesheetPath;
+    stylesheetPath = chrome.extension.getURL('scripts/libs/fp/skin/minimalist.css');
+    console.log("YNET PATH " + stylesheetPath);
+    $("<link rel=stylesheet type=text/css href=" + stylesheetPath + ">").appendTo('head');
     $videoBlocks = $('.art_video > div');
     $videoBlocks.each(function(i) {
       var $el, $vidBlock, configuration, configurationRawJSON, finalVideoURL, posterURL, _ref;
@@ -13,6 +16,7 @@
         finalVideoURL = configuration.clip.url.replace('/z/', '/').replace('/manifest.f4m', '');
         posterURL = $vidBlock.find('img[src*=PicServer]').attr('src');
         $el = $('<video>', {
+          preload: 'auto',
           controls: '',
           poster: posterURL
         }).append($("<source>", {
@@ -24,7 +28,10 @@
         console.info("YNET/VIDEO: Found clip URL: " + finalVideoURL);
       }
     });
-    $(".ynetaltplayer").flowplayer();
+    $(".ynetaltplayer").flowplayer({
+      debug: true,
+      swf: chrome.extension.getURL('scripts/libs/fp/flowplayer.swf')
+    });
   })();
 
 }).call(this);

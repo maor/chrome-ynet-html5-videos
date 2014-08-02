@@ -1,5 +1,10 @@
 main = do -> #$ ->
 
+	# add stylesheet
+	stylesheetPath = chrome.extension.getURL 'scripts/libs/fp/skin/minimalist.css'
+	console.log "YNET PATH #{stylesheetPath}"
+	$("<link rel=stylesheet type=text/css href=#{stylesheetPath}>").appendTo('head');
+
 	$videoBlocks = $ '.art_video > div'
 
 	$videoBlocks.each (i) ->
@@ -16,8 +21,8 @@ main = do -> #$ ->
 			posterURL = $vidBlock.find('img[src*=PicServer]').attr('src')
 
 			$el = $('<video>', 
-				# src: finalVideoURL, 
-				# preload: 'auto',
+				preload: 'auto',
+				# autoplay: '',
 				controls: '',
 				poster: posterURL
 			).append(
@@ -30,5 +35,8 @@ main = do -> #$ ->
 			console.info "YNET/VIDEO: Found clip URL: #{finalVideoURL}"
 		return
 
-	$(".ynetaltplayer").flowplayer();
+	$(".ynetaltplayer").flowplayer	
+		debug: true, 
+		swf: chrome.extension.getURL 'scripts/libs/fp/flowplayer.swf'
+
 	return

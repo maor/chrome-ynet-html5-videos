@@ -278,6 +278,9 @@ module.exports = function (grunt) {
             }
         },
 
+        // http://stackoverflow.com/a/19518227
+        // CSS URL: http://stackoverflow.com/a/8864212
+        // Text RegExps: http://www.regexr.com/
         replace: {
             dist: {
                 src: [
