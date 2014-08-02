@@ -1,8 +1,8 @@
 main = do -> #$ ->
 
 	# add stylesheet
-	stylesheetPath = chrome.extension.getURL 'scripts/libs/fp/skin/minimalist.css'
-	console.log "YNET PATH #{stylesheetPath}"
+	# stylesheetPath = chrome.extension.getURL 'bower_components/flowplayer/dist/minimalist.css'
+	stylesheetPath = 'http://releases.flowplayer.org/5.4.6/skin/minimalist.css'
 	$("<link rel=stylesheet type=text/css href=#{stylesheetPath}>").appendTo('head');
 
 	$videoBlocks = $ '.art_video > div'
@@ -21,7 +21,7 @@ main = do -> #$ ->
 			posterURL = $vidBlock.find('img[src*=PicServer]').attr('src')
 
 			$el = $('<video>', 
-				preload: 'auto',
+				# preload: 'auto',
 				# autoplay: '',
 				controls: '',
 				poster: posterURL
@@ -30,13 +30,26 @@ main = do -> #$ ->
 			)
 
 			$vidBlock.find('div[id^=fpContainer]').remove()
-			$vidBlock.prepend $('<div class=ynetaltplayer>').append $el
+			$vidBlock.prepend $('<div class=ynetaltplayer>') #.append $el
+
+			$fpEl = $vidBlock.find('.ynetaltplayer')
+			$fpEl.flowplayer(
+				rtmp: 'http://mediadownload.ynet.co.il/flowplayerlive/flowplayer.rtmp-3.2.3.swf'
+				playlist: [
+					[flash: finalVideoURL]
+				]
+			).one 'ready', (ev, api) -> 
+				console.info 'YNET/FP THING IS ON'
+				api.resume()
+				return
+
 
 			console.info "YNET/VIDEO: Found clip URL: #{finalVideoURL}"
 		return
 
-	$(".ynetaltplayer").flowplayer	
-		debug: true, 
-		swf: chrome.extension.getURL 'scripts/libs/fp/flowplayer.swf'
+	# $(".ynetaltplayer").flowplayer	
+	# 	debug: true, 
+	# 	swf: 'http://releases.flowplayer.org/5.4.6/flowplayer.swf'
+	# 	# swf: chrome.extension.getURL 'scripts/libs/fp/flowplayer.swf'
 
 	return
