@@ -5,6 +5,8 @@ main = do -> #$ ->
 	stylesheetPath = 'http://releases.flowplayer.org/5.4.6/skin/minimalist.css'
 	$("<link rel=stylesheet type=text/css href=#{stylesheetPath}>").appendTo('head');
 
+	console.log 'ynet fp ver ' + flowplayer.version
+
 	$videoBlocks = $ '.art_video > div'
 
 	$videoBlocks.each (i) ->
@@ -33,15 +35,17 @@ main = do -> #$ ->
 			$vidBlock.prepend $('<div class=ynetaltplayer>') #.append $el
 
 			$fpEl = $vidBlock.find('.ynetaltplayer')
-			$fpEl.flowplayer(
+			konst = $fpEl.flowplayer(
 				rtmp: 'http://mediadownload.ynet.co.il/flowplayerlive/flowplayer.rtmp-3.2.3.swf'
 				playlist: [
 					[flash: finalVideoURL]
 				]
-			).one 'ready', (ev, api) -> 
+			).bind 'ready', (ev, api) -> 
 				console.info 'YNET/FP THING IS ON'
 				api.resume()
 				return
+
+			console.log('YNET', konst)
 
 
 			console.info "YNET/VIDEO: Found clip URL: #{finalVideoURL}"
