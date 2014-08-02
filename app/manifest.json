@@ -1,6 +1,6 @@
 {
     "name": "__MSG_appName__",
-    "version": "0.0.47",
+    "version": "0.0.61",
     "manifest_version": 2,
     "description": "__MSG_appDescription__",
     "icons": {
@@ -15,7 +15,8 @@
         ]
     },
     "web_accessible_resources": [
-        "scripts/libs/*"
+        "scripts/libs/*",
+        "bower_components/*"
     ],
     "content_scripts": [
         {
@@ -27,11 +28,11 @@
             ],
             "js": [
                 "bower_components/jquery/dist/jquery.min.js",
-                "scripts/libs/fp/flowplayer.js",
+                "bower_components/flowplayer/dist/flowplayer.js",
                 "scripts/rashi.js"
             ],
             "css": [
-                "scripts/libs/fp/skin/minimalist.css"
+                "bower_components/flowplayer/dist/minimalist.css"
             ]
         }
     ]
